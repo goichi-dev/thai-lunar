@@ -46,8 +46,3 @@ func ParseTime(s string) (time.Time, error) {
 	}
 	return time.Time{}, fmt.Errorf("%w: %q", ErrInvalidDate, s)
 }
-
-// MarshalJSON encodes the date as its Thai string form.
-func (d Date) MarshalJSON() ([]byte, error) {
-	return []byte(`"` + d.String() + `"`), nil
-}

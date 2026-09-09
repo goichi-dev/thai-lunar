@@ -1,7 +1,6 @@
 package thailunar
 
 import (
-	"encoding/json"
 	"testing"
 	"time"
 )
@@ -177,16 +176,5 @@ func TestParseInvalid(t *testing.T) {
 		if _, err := Parse(s); err == nil {
 			t.Errorf("Parse(%q) should fail", s)
 		}
-	}
-}
-
-func TestMarshalJSON(t *testing.T) {
-	b, err := json.Marshal(FromGregorian(2026, time.May, 31))
-	if err != nil {
-		t.Fatalf("Marshal: %v", err)
-	}
-	want := `"ขึ้น ๑๕ ค่ำ เดือน ๗ ปี ๒๕๖๙"`
-	if string(b) != want {
-		t.Errorf("Marshal = %s, want %s", b, want)
 	}
 }
