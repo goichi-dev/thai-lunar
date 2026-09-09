@@ -7,6 +7,12 @@ version is bumped for breaking changes.
 
 ## [Unreleased]
 
+### Added
+
+- `Parse` and `ParseTime` accept a date as a string: `2006-01-02`, RFC 3339,
+  `2006/01/02`, `02/01/2006` and `02-01-2006`. A year of 2400 or more is read as
+  a Buddhist Era year, so `"2569-09-09"` and `"2026-09-09"` mean the same day.
+
 ## [0.1.0] - 2026-09-09
 
 First release.

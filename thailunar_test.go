@@ -135,3 +135,46 @@ func TestErrNoSuchDate(t *testing.T) {
 		t.Error("month 13 should fail")
 	}
 }
+
+func TestParse(t *testing.T) {
+	want := FromGregorian(2026, time.September, 9)
+
+	for _, s := range []string{
+		"2026-09-09",
+		"2569-09-09",
+		"2026-09-09T13:45:00+07:00",
+		"2026-09-09T13:45:00Z",
+		"2026/09/09",
+		"09/09/2026",
+		"09-09-2026",
+		"09/09/2569",
+	} {
+		got, err := Parse(s)
+		if err != nil {
+			t.Errorf("Parse(%q): %v", s, err)
+			continue
+		}
+		if got.String() != want.String() {
+			t.Errorf("Parse(%q) = %s, want %s", s, got, want)
+		}
+	}
+}
+
+func TestParseDayMonthOrder(t *testing.T) {
+	got, err := Parse("05/03/2026")
+	if err != nil {
+		t.Fatalf("Parse: %v", err)
+	}
+	y, m, d := got.Gregorian()
+	if y != 2026 || m != time.March || d != 5 {
+		t.Errorf("05/03/2026 = %04d-%02d-%02d, want 2026-03-05", y, m, d)
+	}
+}
+
+func TestParseInvalid(t *testing.T) {
+	for _, s := range []string{"", "hello", "2026-13-45", "2026-3-5"} {
+		if _, err := Parse(s); err == nil {
+			t.Errorf("Parse(%q) should fail", s)
+		}
+	}
+}
