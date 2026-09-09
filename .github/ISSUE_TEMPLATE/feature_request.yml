@@ -1,0 +1,35 @@
+name: Feature request
+description: Suggest something the library cannot do yet
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This library covers the Thai lunar calendar. The Chinese, Vietnamese and
+        Burmese lunar calendars are different systems and belong in their own
+        packages, not as options here.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: What are you building that the library makes hard today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would it look like?
+      description: >
+        A sketch of the API you would want. Rough is fine.
+      render: go
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What are you doing instead right now?
+    validations:
+      required: false
