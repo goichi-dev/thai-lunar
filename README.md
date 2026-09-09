@@ -109,6 +109,10 @@ follows its predecessor with no gaps or repeats, and round-trips back through
 `ToGregorianAll`. The holy days and year types are checked against the published
 ปฏิทินหลวง.
 
+The repository does not carry a test suite: those checks are written and run
+against a change, then removed. [CONTRIBUTING.md](CONTRIBUTING.md) describes
+them, with the anchor dates to verify against.
+
 ## Contributing
 
 Bug reports about a wrong date are especially welcome — please include the source

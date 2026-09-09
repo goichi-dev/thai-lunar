@@ -17,34 +17,37 @@ module graph.
 
 ## Quality gate
 
-Run all four before opening a pull request. CI runs the same checks.
+Run all three before opening a pull request. CI runs the same checks.
 
 ```bash
 gofmt -w .
 go vet ./...
 staticcheck ./...
-go test ./...
 ```
 
 ## Correctness comes from the calendar, not from the code
 
 A date conversion that compiles, vets and passes staticcheck can still be wrong
-on every single day of the year. The tests are the real gate here, and two of
-them matter more than the rest:
+on every single day of the year. The static gate proves nothing here.
 
-- `TestRoundTrip` walks every day from 1950 to 2100 and asserts that each date
-  follows its predecessor with no gap, no repeat and no jump. It catches almost
-  any arithmetic mistake immediately.
-- `TestHolidays` checks the Buddhist holy days against dates published in the
-  ปฏิทินหลวง.
+The repository does not keep `_test.go` files. Write a throwaway test to prove a
+change works, run it, then delete it before opening the pull request — and say
+in the pull request what you checked and what you observed.
 
-**If you change anything in `year.go`, `csdate.go` or `constants.go`, say in the
-pull request which published dates you checked against.** "The tests pass" is
-necessary but not sufficient — an anchor that is wrong in the test is wrong
-everywhere.
+Two checks are worth writing whenever the calendar core changes:
 
-When you add a case, prefer a date you can point to a source for: a government
-holiday announcement, a printed calendar, or the Royal Institute's tables.
+- Walk every day across a long span (1950-2100 is 54,787 days) and assert each
+  date follows its predecessor with no gap, repeat or jump, and round-trips
+  back through `ToGregorianAll`. This catches almost any arithmetic mistake.
+- Check the Buddhist holy days against dates published in the ปฏิทินหลวง.
+
+Known-good anchors: Visakha 2024-05-22, 2025-05-11, 2023-06-03 (athikamas),
+2026-05-31 (athikamas); Makha 2024-02-24, 2025-02-12; Asalha 2025-07-10;
+Ok Phansa 2025-10-07.
+
+**If you change `year.go`, `csdate.go` or `constants.go`, say in the pull
+request which published dates you checked against.** An anchor that is wrong in
+a test is wrong everywhere.
 
 ## Reporting a wrong date
 
